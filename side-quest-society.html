@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Side Quest Society — Gaming, Tech & Good Vibes Podcast</title>
+<meta name="description" content="Side Quest Society: a podcast about gaming news, tech drops, and boss-level motivation. New episodes weekly.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#0a0c0a;
+    --bg-panel:#131611;
+    --bg-panel-2:#1a1e17;
+    --cyan:#26d9d9;
+    --red:#ff4438;
+    --yellow:#ffb000;
+    --green:#3dff6e;
+    --orange:#ff7a1a;
+    --text:#e8f0e2;
+    --text-dim:#93a08a;
+    --pixel-font:'Press Start 2P', monospace;
+    --body-font:'VT323', monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg-deep);
+    color:var(--text);
+    font-family:var(--body-font);
+    font-size:22px;
+    line-height:1.5;
+    overflow-x:hidden;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(255,122,26,0.07), transparent 40%),
+      radial-gradient(circle at 80% 0%, rgba(38,217,217,0.07), transparent 40%),
+      radial-gradient(circle at 50% 100%, rgba(255,68,56,0.06), transparent 45%);
+  }
+
+  /* ---------- CRT / scanline overlay ---------- */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:200;
+    background:repeating-linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.12) 0px,
+      rgba(0,0,0,0.12) 1px,
+      transparent 2px,
+      transparent 4px
+    );
+    mix-blend-mode:multiply;
+    opacity:0.35;
+  }
+
+  ::selection{background:var(--red);color:var(--bg-deep);}
+
+  img{max-width:100%;display:block;image-rendering:pixelated;}
+
+  h1,h2,h3,.pixel-font{font-family:var(--pixel-font);}
+
+  a{color:inherit;text-decoration:none;}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+
+  section{padding:96px 0;position:relative;scroll-margin-top:84px;}
+
+  .eyebrow{
+    font-family:var(--pixel-font);
+    font-size:11px;
+    color:var(--yellow);
+    letter-spacing:2px;
+    margin-bottom:16px;
+    display:inline-block;
+    padding:6px 12px;
+    border:2px solid var(--yellow);
+    background:rgba(255,176,0,0.08);
+  }
+
+  h2.section-title{
+    font-size:28px;
+    line-height:1.4;
+    margin-bottom:14px;
+    color:var(--text);
+    text-shadow:3px 3px 0 rgba(255,122,26,0.35);
+  }
+
+  .section-sub{
+    color:var(--text-dim);
+    font-size:22px;
+    max-width:640px;
+    margin-bottom:48px;
+  }
+
+  .pixel-border{
+    border:3px solid var(--cyan);
+    box-shadow:
+      6px 6px 0 rgba(38,217,217,0.25),
+      inset 0 0 0 3px rgba(0,0,0,0.35);
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    font-family:var(--pixel-font);
+    font-size:12px;
+    display:inline-block;
+    padding:16px 22px;
+    border:3px solid var(--text);
+    background:var(--bg-deep);
+    color:var(--text);
+    cursor:pointer;
+    position:relative;
+    transition:transform .08s ease;
+    letter-spacing:1px;
+    text-align:center;
+  }
+  .btn:active{transform:translate(2px,2px);}
+
+  .btn-primary{
+    background:var(--red);
+    border-color:var(--red);
+    color:#1a0a12;
+    box-shadow:5px 5px 0 var(--orange);
+  }
+  .btn-primary:hover{box-shadow:2px 2px 0 var(--orange);transform:translate(3px,3px);}
+
+  .btn-outline{
+    background:transparent;
+    border-color:var(--cyan);
+    color:var(--cyan);
+    box-shadow:5px 5px 0 rgba(38,217,217,0.35);
+  }
+  .btn-outline:hover{box-shadow:2px 2px 0 rgba(38,217,217,0.35);transform:translate(3px,3px);}
+
+  .btn-yellow{
+    background:var(--yellow);
+    border-color:var(--yellow);
+    color:#241900;
+    box-shadow:5px 5px 0 var(--green);
+  }
+  .btn-yellow:hover{box-shadow:2px 2px 0 var(--green);transform:translate(3px,3px);}
+
+  .btn-sm{font-size:10px;padding:10px 14px;}
+
+  /* ---------- Nav ---------- */
+  header{
+    position:sticky;top:0;z-index:100;
+    background:rgba(10,12,10,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:3px solid var(--orange);
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 24px;max-width:1180px;margin:0 auto;
+  }
+  .logo{
+    font-family:var(--pixel-font);
+    font-size:14px;
+    color:var(--yellow);
+    display:flex;align-items:center;gap:10px;
+    letter-spacing:1px;
+  }
+  .logo .glyph{
+    width:28px;height:28px;
+    background:
+      linear-gradient(45deg, var(--red), var(--cyan));
+    display:inline-block;
+    clip-path:polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    box-shadow:3px 3px 0 var(--orange);
+  }
+  nav ul{
+    list-style:none;display:flex;gap:26px;
+    font-family:var(--pixel-font);font-size:10px;
+  }
+  nav ul li a{
+    color:var(--text-dim);
+    padding:6px 2px;border-bottom:3px solid transparent;
+    transition:color .15s, border-color .15s;
+  }
+  nav ul li a:hover{color:var(--cyan);border-color:var(--cyan);}
+  .nav-cta{display:flex;align-items:center;gap:16px;}
+  .menu-toggle{
+    display:none;
+    font-family:var(--pixel-font);
+    background:transparent;border:2px solid var(--text);color:var(--text);
+    font-size:16px;padding:8px 12px;cursor:pointer;
+  }
+
+  @media (max-width:860px){
+    nav ul{
+      position:fixed;top:70px;left:0;right:0;
+      background:var(--bg-panel);
+      flex-direction:column;gap:0;
+      border-top:3px solid var(--orange);
+      border-bottom:3px solid var(--orange);
+      max-height:0;overflow:hidden;
+      transition:max-height .25s ease;
+    }
+    nav ul.open{max-height:420px;}
+    nav ul li{width:100%;}
+    nav ul li a{display:block;padding:16px 24px;border-bottom:1px solid rgba(255,255,255,0.08);}
+    .menu-toggle{display:inline-block;}
+    .nav-cta .btn-outline{display:none;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:100px 0 90px;
+    text-align:center;
+    position:relative;
+  }
+  .hero .stars{
+    position:absolute;inset:0;
+    background-image:
+      radial-gradient(2px 2px at 10% 20%, var(--cyan), transparent),
+      radial-gradient(2px 2px at 80% 30%, var(--red), transparent),
+      radial-gradient(2px 2px at 60% 70%, var(--yellow), transparent),
+      radial-gradient(2px 2px at 30% 80%, var(--green), transparent),
+      radial-gradient(2px 2px at 90% 85%, var(--orange), transparent);
+    opacity:.6;
+    pointer-events:none;
+  }
+  .insert-coin{
+    font-family:var(--pixel-font);
+    font-size:11px;
+    color:var(--green);
+    letter-spacing:2px;
+    animation:blink 1.1s steps(1) infinite;
+    margin-bottom:22px;
+    display:inline-block;
+  }
+  @keyframes blink{50%{opacity:0;}}
+
+  .hero h1{
+    font-size:42px;
+    line-height:1.35;
+    color:var(--text);
+    text-shadow:
+      4px 4px 0 var(--red),
+      8px 8px 0 var(--orange);
+    margin-bottom:24px;
+  }
+  .hero h1 span{color:var(--cyan);}
+
+  .hero p.tagline{
+    font-size:26px;
+    color:var(--text-dim);
+    max-width:640px;
+    margin:0 auto 40px;
+  }
+
+  .hero-actions{
+    display:flex;gap:18px;justify-content:center;flex-wrap:wrap;
+    margin-bottom:56px;
+  }
+
+  .hero-stats{
+    display:flex;justify-content:center;gap:48px;flex-wrap:wrap;
+    font-family:var(--pixel-font);
+  }
+  .hero-stats div{font-size:20px;color:var(--yellow);}
+  .hero-stats span{display:block;font-family:var(--body-font);font-size:16px;color:var(--text-dim);margin-top:8px;letter-spacing:1px;}
+
+  /* ---------- Episode cards ---------- */
+  .episodes-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(300px,1fr));
+    gap:28px;
+  }
+  .ep-card{
+    background:var(--bg-panel);
+    border:3px solid var(--orange);
+    box-shadow:6px 6px 0 rgba(255,122,26,0.25);
+    padding:0;
+    overflow:hidden;
+    transition:transform .12s ease;
+  }
+  .ep-card:hover{transform:translate(-3px,-3px);}
+  .ep-thumb{
+    height:150px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--pixel-font);
+    font-size:28px;
+    color:rgba(255,255,255,0.85);
+    position:relative;
+    overflow:hidden;
+  }
+  .ep-thumb.gaming{background:linear-gradient(135deg,#ff4438,#ff7a1a);}
+  .ep-thumb.tech{background:linear-gradient(135deg,#26d9d9,#0f3d3d);}
+  .ep-thumb.motivation{background:linear-gradient(135deg,#ffb000,#3dff6e);color:#241900;}
+  .ep-body{padding:22px;}
+  .ep-tag{
+    font-family:var(--pixel-font);
+    font-size:9px;
+    padding:5px 8px;
+    display:inline-block;
+    margin-bottom:12px;
+    letter-spacing:1px;
+  }
+  .tag-gaming{background:rgba(255,68,56,0.15);color:var(--red);border:1px solid var(--red);}
+  .tag-tech{background:rgba(38,217,217,0.15);color:var(--cyan);border:1px solid var(--cyan);}
+  .tag-motivation{background:rgba(61,255,110,0.15);color:var(--green);border:1px solid var(--green);}
+  .ep-body h3{font-family:var(--body-font);font-weight:normal;font-size:24px;margin-bottom:8px;color:var(--text);}
+  .ep-meta{color:var(--text-dim);font-size:18px;margin-bottom:16px;}
+  .ep-play{
+    font-family:var(--pixel-font);font-size:10px;color:var(--yellow);
+    display:flex;align-items:center;gap:8px;
+  }
+
+  .view-all{text-align:center;margin-top:48px;}
+
+  /* ---------- Segments ---------- */
+  .segments-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:28px;
+  }
+  .segment-card{
+    padding:32px 26px;
+    background:var(--bg-panel-2);
+    border:3px solid transparent;
+    position:relative;
+  }
+  .segment-card h3{font-size:16px;margin-bottom:14px;}
+  .segment-card p{color:var(--text-dim);font-size:20px;margin-bottom:18px;}
+  .segment-card .icon{font-size:34px;margin-bottom:18px;}
+  .segment-card.gaming{border-color:var(--red);box-shadow:6px 6px 0 rgba(255,68,56,0.25);}
+  .segment-card.tech{border-color:var(--cyan);box-shadow:6px 6px 0 rgba(38,217,217,0.25);}
+  .segment-card.motivation{border-color:var(--green);box-shadow:6px 6px 0 rgba(61,255,110,0.25);}
+  .segment-card.gaming h3{color:var(--red);}
+  .segment-card.tech h3{color:var(--cyan);}
+  .segment-card.motivation h3{color:var(--green);}
+
+  /* ---------- Hosts ---------- */
+  .hosts-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:28px;
+  }
+  .host-card{
+    background:var(--bg-panel);
+    border:3px solid var(--text);
+    text-align:center;
+    padding:26px 20px;
+  }
+  .host-avatar{
+    width:96px;height:96px;
+    margin:0 auto 18px;
+    background:linear-gradient(135deg,var(--orange),var(--red));
+    clip-path:polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+  .host-card h3{font-family:var(--body-font);font-weight:normal;font-size:26px;margin-bottom:6px;}
+  .host-role{font-family:var(--pixel-font);font-size:9px;color:var(--yellow);letter-spacing:1px;margin-bottom:14px;display:block;}
+  .host-card p{color:var(--text-dim);font-size:19px;margin-bottom:16px;}
+  .host-social{display:flex;gap:14px;justify-content:center;font-family:var(--pixel-font);font-size:10px;}
+  .host-social a{color:var(--cyan);}
+
+  /* ---------- Blog ---------- */
+  .blog-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:28px;
+  }
+  .blog-card{
+    background:var(--bg-panel-2);
+    border-left:4px solid var(--yellow);
+    padding:24px;
+  }
+  .blog-date{font-family:var(--pixel-font);font-size:9px;color:var(--text-dim);margin-bottom:10px;display:block;}
+  .blog-card h3{font-family:var(--body-font);font-weight:normal;font-size:24px;margin-bottom:10px;}
+  .blog-card p{color:var(--text-dim);font-size:19px;margin-bottom:14px;}
+  .read-more{font-family:var(--pixel-font);font-size:9px;color:var(--green);}
+
+  /* ---------- Subscribe ---------- */
+  .subscribe-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:20px;
+  }
+  .subscribe-btn{
+    background:var(--bg-panel);
+    border:3px solid var(--text);
+    padding:22px;
+    text-align:center;
+    font-family:var(--pixel-font);
+    font-size:11px;
+    transition:transform .1s ease;
+  }
+  .subscribe-btn:hover{transform:translateY(-4px);border-color:var(--cyan);color:var(--cyan);}
+  .subscribe-btn .ico{font-size:26px;margin-bottom:12px;display:block;}
+
+  /* ---------- Support / merch ---------- */
+  .support-box{
+    background:var(--bg-panel);
+    border:3px dashed var(--red);
+    padding:48px;
+    text-align:center;
+  }
+  .support-box h2{margin-bottom:16px;}
+  .support-box p{color:var(--text-dim);font-size:22px;max-width:600px;margin:0 auto 32px;}
+
+  /* ---------- Newsletter ---------- */
+  .newsletter{
+    background:linear-gradient(135deg, rgba(255,176,0,0.08), rgba(0,240,255,0.1));
+    border:3px solid var(--orange);
+    padding:56px 40px;
+    text-align:center;
+  }
+  .newsletter h2{margin-bottom:12px;}
+  .newsletter p{color:var(--text-dim);font-size:22px;margin-bottom:30px;}
+  .newsletter form{
+    display:flex;gap:14px;justify-content:center;flex-wrap:wrap;max-width:520px;margin:0 auto;
+  }
+  .newsletter input[type="email"]{
+    flex:1;min-width:220px;
+    background:var(--bg-deep);
+    border:3px solid var(--text);
+    color:var(--text);
+    font-family:var(--body-font);
+    font-size:20px;
+    padding:14px 16px;
+  }
+  .newsletter input[type="email"]:focus{outline:none;border-color:var(--cyan);}
+  .form-note{font-size:15px;color:var(--text-dim);margin-top:16px;}
+
+  /* ---------- Community / contact ---------- */
+  .community-grid{
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:48px;
+  }
+  @media (max-width:800px){.community-grid{grid-template-columns:1fr;}}
+
+  .community-links{display:flex;flex-direction:column;gap:16px;}
+  .community-links a{
+    display:flex;align-items:center;gap:14px;
+    background:var(--bg-panel);
+    border:2px solid var(--text-dim);
+    padding:16px 18px;
+    font-size:20px;
+    transition:border-color .15s, color .15s;
+  }
+  .community-links a:hover{border-color:var(--yellow);color:var(--yellow);}
+
+  .contact-form{display:flex;flex-direction:column;gap:16px;}
+  .contact-form input, .contact-form textarea{
+    background:var(--bg-panel);
+    border:2px solid var(--text-dim);
+    color:var(--text);
+    font-family:var(--body-font);
+    font-size:19px;
+    padding:14px;
+    width:100%;
+  }
+  .contact-form input:focus, .contact-form textarea:focus{outline:none;border-color:var(--cyan);}
+  .contact-form textarea{min-height:120px;resize:vertical;}
+
+  /* ---------- Footer ---------- */
+  footer{
+    border-top:3px solid var(--orange);
+    padding:48px 0 30px;
+    text-align:center;
+    color:var(--text-dim);
+  }
+  .footer-logo{font-family:var(--pixel-font);font-size:13px;color:var(--yellow);margin-bottom:14px;}
+  footer .foot-links{
+    display:flex;gap:20px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--pixel-font);font-size:9px;margin:20px 0;
+  }
+  footer .foot-links a{color:var(--text-dim);}
+  footer .foot-links a:hover{color:var(--cyan);}
+  footer .copy{font-size:16px;margin-top:16px;}
+  .back-to-top{
+    display:inline-block;margin-top:24px;
+    font-family:var(--pixel-font);font-size:10px;color:var(--cyan);
+    border:2px solid var(--cyan);padding:10px 16px;
+  }
+
+  @media (max-width:600px){
+    .hero h1{font-size:30px;}
+    section{padding:64px 0;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a href="#top" class="logo"><span class="glyph"></span>SIDE QUEST<br>SOCIETY</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    <ul id="navLinks">
+      <li><a href="#episodes">Episodes</a></li>
+      <li><a href="#segments">Segments</a></li>
+      <li><a href="#hosts">Hosts</a></li>
+      <li><a href="#blog">Blog</a></li>
+      <li><a href="#community">Community</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="#subscribe" class="btn btn-outline btn-sm">Subscribe</a>
+    </div>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="stars"></div>
+    <div class="wrap">
+      <span class="insert-coin">▸ PRESS START TO CONTINUE</span>
+      <h1>Welcome to the<br><span>SIDE QUEST SOCIETY</span></h1>
+      <p class="tagline">A podcast about gaming news, tech drops, and the boss-level motivation you need to level up your real life.</p>
+      <div class="hero-actions">
+        <a href="#episodes" class="btn btn-primary">▶ LISTEN NOW</a>
+        <a href="#subscribe" class="btn btn-outline">+ SUBSCRIBE FREE</a>
+      </div>
+      <div class="hero-stats">
+        <div>120+<span>Episodes</span></div>
+        <div>3<span>Weekly Segments</span></div>
+        <div>50K<span>Party Members</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EPISODES -->
+  <section id="episodes">
+    <div class="wrap">
+      <span class="eyebrow">QUEST LOG</span>
+      <h2 class="section-title">Latest Episodes</h2>
+      <p class="section-sub">Fresh drops every week — gaming news, tech breakdowns, and a little bit of soul.</p>
+
+      <div class="episodes-grid">
+        <div class="ep-card">
+          <div class="ep-thumb gaming">🎮</div>
+          <div class="ep-body">
+            <span class="ep-tag tag-gaming">Gaming News</span>
+            <h3>Ep. 118 — The Console War Nobody Saw Coming</h3>
+            <div class="ep-meta">Aug 12, 2026 · 48 min</div>
+            <a href="#" class="ep-play">▶ PLAY EPISODE</a>
+          </div>
+        </div>
+        <div class="ep-card">
+          <div class="ep-thumb tech">💻</div>
+          <div class="ep-body">
+            <span class="ep-tag tag-tech">Tech News</span>
+            <h3>Ep. 117 — AI Chips, Explained for Humans</h3>
+            <div class="ep-meta">Aug 5, 2026 · 41 min</div>
+            <a href="#" class="ep-play">▶ PLAY EPISODE</a>
+          </div>
+        </div>
+        <div class="ep-card">
+          <div class="ep-thumb motivation">✨</div>
+          <div class="ep-body">
+            <span class="ep-tag tag-motivation">Feel Good</span>
+            <h3>Ep. 116 — Respawn: Bouncing Back From Burnout</h3>
+            <div class="ep-meta">Jul 29, 2026 · 36 min</div>
+            <a href="#" class="ep-play">▶ PLAY EPISODE</a>
+          </div>
+        </div>
+        <div class="ep-card">
+          <div class="ep-thumb gaming">🕹️</div>
+          <div class="ep-body">
+            <span class="ep-tag tag-gaming">Gaming News</span>
+            <h3>Ep. 115 — Indie Darlings You're Sleeping On</h3>
+            <div class="ep-meta">Jul 22, 2026 · 44 min</div>
+            <a href="#" class="ep-play">▶ PLAY EPISODE</a>
+          </div>
+        </div>
+        <div class="ep-card">
+          <div class="ep-thumb tech">📡</div>
+          <div class="ep-body">
+            <span class="ep-tag tag-tech">Tech News</span>
+            <h3>Ep. 114 — Is Your Smart Home Spying on You?</h3>
+            <div class="ep-meta">Jul 15, 2026 · 39 min</div>
+            <a href="#" class="ep-play">▶ PLAY EPISODE</a>
+          </div>
+        </div>
+        <div class="ep-card">
+          <div class="ep-thumb motivation">🌟</div>
+          <div class="ep-body">
+            <span class="ep-tag tag-motivation">Feel Good</span>
+            <h3>Ep. 113 — Side Quests: Small Wins That Matter</h3>
+            <div class="ep-meta">Jul 8, 2026 · 33 min</div>
+            <a href="#" class="ep-play">▶ PLAY EPISODE</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="view-all">
+        <a href="#" class="btn btn-yellow">VIEW FULL EPISODE ARCHIVE</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEGMENTS -->
+  <section id="segments" style="background:var(--bg-panel);">
+    <div class="wrap">
+      <span class="eyebrow">GAME MODES</span>
+      <h2 class="section-title">Pick Your Segment</h2>
+      <p class="section-sub">Every episode rotates through three modes — mix and match to build your perfect quest.</p>
+
+      <div class="segments-grid">
+        <div class="segment-card gaming">
+          <div class="icon">🎮</div>
+          <h3>GAMING NEWS</h3>
+          <p>Console wars, new releases, indie gems, and the drama the timeline can't stop talking about.</p>
+          <a href="#episodes" class="ep-play" style="color:var(--red);">BROWSE EPISODES →</a>
+        </div>
+        <div class="segment-card tech">
+          <div class="icon">💻</div>
+          <h3>TECH NEWS</h3>
+          <p>AI, gadgets, and the future — broken down so it actually makes sense by the end of the episode.</p>
+          <a href="#episodes" class="ep-play" style="color:var(--cyan);">BROWSE EPISODES →</a>
+        </div>
+        <div class="segment-card motivation">
+          <div class="icon">✨</div>
+          <h3>FEEL GOOD / MOTIVATION</h3>
+          <p>Real talk on burnout, growth, and finding your next side quest — the boost you didn't know you needed.</p>
+          <a href="#episodes" class="ep-play" style="color:var(--green);">BROWSE EPISODES →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOSTS -->
+  <section id="hosts">
+    <div class="wrap">
+      <span class="eyebrow">CHARACTER SELECT</span>
+      <h2 class="section-title">Meet the Party</h2>
+      <p class="section-sub">Three hosts, three classes, one guild.</p>
+
+      <div class="hosts-grid">
+        <div class="host-card">
+          <div class="host-avatar"></div>
+          <h3>Alex "Pixel" Rivera</h3>
+          <span class="host-role">CLASS: GAME CRITIC</span>
+          <p>10+ years covering gaming culture. Will fight you about the best Zelda game.</p>
+          <div class="host-social"><a href="#">X</a><a href="#">IG</a><a href="#">TWITCH</a></div>
+        </div>
+        <div class="host-card">
+          <div class="host-avatar"></div>
+          <h3>Sam "Byte" Okafor</h3>
+          <span class="host-role">CLASS: TECH ANALYST</span>
+          <p>Former dev turned journalist. Explains AI without making your eyes glaze over.</p>
+          <div class="host-social"><a href="#">X</a><a href="#">LI</a><a href="#">YT</a></div>
+        </div>
+        <div class="host-card">
+          <div class="host-avatar"></div>
+          <h3>Jordan "Spark" Lee</h3>
+          <span class="host-role">CLASS: LIFE COACH</span>
+          <p>Certified coach and lifelong gamer bringing the feel-good energy every episode.</p>
+          <div class="host-social"><a href="#">IG</a><a href="#">TT</a><a href="#">LI</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOG -->
+  <section id="blog" style="background:var(--bg-panel);">
+    <div class="wrap">
+      <span class="eyebrow">GUILD HALL</span>
+      <h2 class="section-title">From the Blog</h2>
+      <p class="section-sub">Extra reads between episodes — recaps, hot takes, and deep dives.</p>
+
+      <div class="blog-grid">
+        <div class="blog-card">
+          <span class="blog-date">AUG 14, 2026</span>
+          <h3>5 Indie Games Flying Under the Radar This Month</h3>
+          <p>We rounded up the small studio releases worth your weekend.</p>
+          <a href="#" class="read-more">READ MORE →</a>
+        </div>
+        <div class="blog-card">
+          <span class="blog-date">AUG 9, 2026</span>
+          <h3>What the Latest Chip Announcement Actually Means</h3>
+          <p>Cutting through the marketing speak on this week's biggest tech story.</p>
+          <a href="#" class="read-more">READ MORE →</a>
+        </div>
+        <div class="blog-card">
+          <span class="blog-date">AUG 2, 2026</span>
+          <h3>How to Turn Burnout Into Your Next Side Quest</h3>
+          <p>Notes from Jordan on reframing rough patches as respawn points.</p>
+          <a href="#" class="read-more">READ MORE →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUBSCRIBE -->
+  <section id="subscribe">
+    <div class="wrap">
+      <span class="eyebrow">LOAD GAME</span>
+      <h2 class="section-title">Listen Anywhere</h2>
+      <p class="section-sub">Pick your platform and never miss a quest.</p>
+
+      <div class="subscribe-grid">
+        <a href="#" class="subscribe-btn"><span class="ico">🟢</span>Spotify</a>
+        <a href="#" class="subscribe-btn"><span class="ico">🍎</span>Apple Podcasts</a>
+        <a href="#" class="subscribe-btn"><span class="ico">▶️</span>YouTube</a>
+        <a href="#" class="subscribe-btn"><span class="ico">🎧</span>Overcast</a>
+        <a href="#" class="subscribe-btn"><span class="ico">📻</span>RSS Feed</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUPPORT / MERCH -->
+  <section style="background:var(--bg-panel);">
+    <div class="wrap">
+      <div class="support-box">
+        <span class="eyebrow" style="border-color:var(--red);color:var(--red);">POWER-UP</span>
+        <h2 class="section-title">Support the Quest</h2>
+        <p>Grab merch or back us on Patreon to keep the side quests coming — every level-up helps.</p>
+        <div class="hero-actions">
+          <a href="#" class="btn btn-primary">🛍 SHOP MERCH</a>
+          <a href="#" class="btn btn-outline">🕹 JOIN PATREON</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section>
+    <div class="wrap">
+      <div class="newsletter">
+        <span class="eyebrow">SAVE POINT</span>
+        <h2 class="section-title">Join the Party</h2>
+        <p>Get new episodes, bonus content, and quest updates straight to your inbox.</p>
+        <form onsubmit="event.preventDefault(); document.getElementById('nlNote').textContent='✓ You\'re in! Check your inbox to confirm.';">
+          <input type="email" placeholder="your@email.com" required>
+          <button type="submit" class="btn btn-yellow">SIGN ME UP</button>
+        </form>
+        <p class="form-note" id="nlNote">No spam. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMUNITY / CONTACT -->
+  <section id="community" style="background:var(--bg-panel);">
+    <div class="wrap">
+      <span class="eyebrow">MULTIPLAYER LOBBY</span>
+      <h2 class="section-title">Join the Community</h2>
+      <p class="section-sub">Hang out with fellow adventurers and send us your questions or episode ideas.</p>
+
+      <div class="community-grid">
+        <div class="community-links">
+          <a href="#">💬 Join the Discord Server</a>
+          <a href="#">📸 Follow on Instagram</a>
+          <a href="#">🐦 Follow on X</a>
+          <a href="#">🎥 Subscribe on YouTube</a>
+          <a href="#">🎵 Follow on TikTok</a>
+        </div>
+        <form class="contact-form" onsubmit="event.preventDefault(); alert('Thanks for reaching out! We\'ll get back to you soon.');">
+          <input type="text" placeholder="Your name" required>
+          <input type="email" placeholder="Your email" required>
+          <textarea placeholder="Episode idea, question, or shoutout..." required></textarea>
+          <button type="submit" class="btn btn-outline">SEND MESSAGE</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-logo">SIDE QUEST SOCIETY</div>
+    <div class="foot-links">
+      <a href="#episodes">Episodes</a>
+      <a href="#segments">Segments</a>
+      <a href="#hosts">Hosts</a>
+      <a href="#blog">Blog</a>
+      <a href="#community">Community</a>
+      <a href="#">Privacy</a>
+    </div>
+    <p class="copy">© 2026 Side Quest Society. All quests reserved.</p>
+    <a href="#top" class="back-to-top">▲ BACK TO TOP</a>
+  </div>
+</footer>
+
+<script>
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+</script>
+
+</body>
+</html>
