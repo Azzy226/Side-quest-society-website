@@ -15,3 +15,4 @@ Go to `yourwebsite.com/admin`, log in, edit, click Publish. The site updates in 
 
 ## Local preview
 `npx serve .` for the site; `npx decap-server` alongside it for `/admin/`.
+[![Architecture diagram](https://gitdiagram.com/diagram-badge.svg)](https://gitdiagram.com/azzy226/side-quest-society-website?utm_source=readme&utm_medium=badge)
