@@ -1,7 +1,7 @@
 # Decap CMS setup. The developer fills in the CHANGE-ME values once; Trey never touches this file.
 backend:
   name: github
-  repo: Azzy226/Side-quest-society-website   # GitHub "username/repository"
+  repo: Azzy226/Side-Quest-Society-Website   # GitHub "username/repository"
   branch: main
   # base_url: https://YOUR-OAUTH-PROXY   # only if hosting outside Netlify (see README)
 
