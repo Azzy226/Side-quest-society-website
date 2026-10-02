@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Side Quest Society</title>
+<meta name="description" content="">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Side Quest Society">
+<meta name="theme-color" content="#0a0c0a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a href="#top" class="logo"><span class="glyph"></span><span id="logoText">SIDE QUEST SOCIETY</span></a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    <ul id="navLinks"></ul>
+    <div class="nav-cta">
+      <a href="#subscribe" class="btn btn-outline btn-sm" id="navSubscribe" hidden>Subscribe</a>
+    </div>
+  </nav>
+</header>
+
+<main id="top">
+<div id="view-home">
+
+  <section class="hero">
+    <div class="stars"></div>
+    <div class="wrap">
+      <span class="insert-coin" id="heroKicker" hidden></span>
+      <h1 id="heroTitle"></h1>
+      <p class="tagline" id="heroTagline" hidden></p>
+      <div class="hero-actions" id="heroActions"></div>
+      <div class="hero-stats" id="heroStats"></div>
+    </div>
+  </section>
+
+  <section id="episodes" hidden>
+    <div class="wrap">
+      <span class="eyebrow">QUEST LOG</span>
+      <h2 class="section-title" id="episodesTitle">Latest Episodes</h2>
+      <p class="section-sub" id="episodesSub" hidden></p>
+      <div class="episodes-grid" id="episodesGrid"></div>
+      <div class="view-all" id="episodesAll" hidden></div>
+    </div>
+  </section>
+
+  <section id="segments" class="alt" hidden>
+    <div class="wrap">
+      <span class="eyebrow">GAME MODES</span>
+      <h2 class="section-title" id="segmentsTitle">Pick Your Segment</h2>
+      <p class="section-sub" id="segmentsSub" hidden></p>
+      <div class="segments-grid" id="segmentsGrid"></div>
+    </div>
+  </section>
+
+  <section id="hosts" hidden>
+    <div class="wrap">
+      <span class="eyebrow">CHARACTER SELECT</span>
+      <h2 class="section-title" id="hostsTitle">Meet the Host</h2>
+      <p class="section-sub" id="hostsSub" hidden></p>
+      <div class="hosts-grid" id="hostsGrid"></div>
+    </div>
+  </section>
+
+  <section id="blog" class="alt" hidden>
+    <div class="wrap">
+      <span class="eyebrow">GUILD HALL</span>
+      <h2 class="section-title" id="blogTitle">From the Blog</h2>
+      <p class="section-sub" id="blogSub" hidden></p>
+      <div class="blog-grid" id="blogGrid"></div>
+    </div>
+  </section>
+
+  <section id="subscribe" hidden>
+    <div class="wrap">
+      <span class="eyebrow">LOAD GAME</span>
+      <h2 class="section-title" id="subscribeTitle">Listen Anywhere</h2>
+      <p class="section-sub" id="subscribeSub" hidden></p>
+      <div class="subscribe-grid" id="subscribeGrid"></div>
+    </div>
+  </section>
+
+  <section id="support" class="alt" hidden>
+    <div class="wrap">
+      <div class="support-box">
+        <span class="eyebrow" style="border-color:var(--red);color:var(--red);">POWER-UP</span>
+        <h2 class="section-title" id="supportTitle">Support the Quest</h2>
+        <p id="supportText" hidden></p>
+        <div class="hero-actions" id="supportActions"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="newsletter" hidden>
+    <div class="wrap">
+      <div class="newsletter">
+        <span class="eyebrow">SAVE POINT</span>
+        <h2 class="section-title" id="newsletterTitle">Join the Party</h2>
+        <p id="newsletterText" hidden></p>
+        <form id="newsletterForm">
+          <input type="email" name="email" placeholder="your@email.com" required>
+          <button type="submit" class="btn btn-yellow">SIGN ME UP</button>
+        </form>
+        <p class="form-note" id="newsletterNote"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="community" class="alt" hidden>
+    <div class="wrap">
+      <span class="eyebrow">MULTIPLAYER LOBBY</span>
+      <h2 class="section-title" id="communityTitle">Join the Community</h2>
+      <p class="section-sub" id="communitySub" hidden></p>
+      <div class="community-grid">
+        <div class="community-links" id="communityLinks"></div>
+        <form class="contact-form" id="contactForm" hidden>
+          <input type="text" name="name" placeholder="Your name" required>
+          <input type="email" name="email" placeholder="Your email" required>
+          <textarea name="message" placeholder="Your message..." required></textarea>
+          <button type="submit" class="btn btn-outline">SEND MESSAGE</button>
+          <p class="form-note" id="contactNote"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /view-home -->
+
+<div id="view-comics" class="view" hidden>
+  <section>
+    <div class="wrap">
+      <span class="eyebrow">CUTSCENES</span>
+      <h2 class="section-title" id="comicsTitle">Comic Reels</h2>
+      <p class="section-sub" id="comicsSub" hidden></p>
+      <div class="reels-grid" id="comicsGrid"></div>
+      <p class="empty-note" id="comicsEmpty" hidden>New reels coming soon.</p>
+    </div>
+  </section>
+</div>
+
+<div id="view-motivation" class="view" hidden>
+  <section>
+    <div class="wrap">
+      <span class="eyebrow">BOSS-LEVEL FUEL</span>
+      <h2 class="section-title" id="motivationTitle">Motivation</h2>
+      <p class="section-sub" id="motivationSub" hidden></p>
+      <div class="quote-grid" id="motivationGrid"></div>
+      <p class="empty-note" id="motivationEmpty" hidden>New motivation coming soon.</p>
+    </div>
+  </section>
+</div>
+
+<div id="view-facts" class="view" hidden>
+  <section>
+    <div class="wrap">
+      <span class="eyebrow">DAILY DROP</span>
+      <h2 class="section-title" id="factsTitle">Facts of the Day</h2>
+      <p class="section-sub" id="factsSub" hidden></p>
+      <div id="factToday"></div>
+      <h3 class="past-title" id="factsPastTitle" hidden>PREVIOUS FACTS</h3>
+      <div class="facts-list" id="factsGrid"></div>
+      <p class="empty-note" id="factsEmpty" hidden>Today's fact is coming soon.</p>
+    </div>
+  </section>
+</div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-logo" id="footerLogo"></div>
+    <div class="foot-links" id="footLinks"></div>
+    <p class="copy" id="footerCopy"></p>
+    <a href="#top" class="back-to-top">▲ BACK TO TOP</a>
+  </div>
+</footer>
+
+<noscript><p style="text-align:center;padding:40px">Please enable JavaScript to view this site.</p></noscript>
+<script src="site.js"></script>
+</body>
+</html>

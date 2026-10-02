@@ -1,0 +1,214 @@
+# Decap CMS setup. The developer fills in the CHANGE-ME values once; Trey never touches this file.
+backend:
+  name: github
+  repo: Azzy226/Side-quest-society-website   # GitHub "username/repository"
+  branch: main
+  # base_url: https://YOUR-OAUTH-PROXY   # only if hosting outside Netlify (see README)
+
+local_backend: true   # lets you test /admin locally with: npx decap-server
+
+media_folder: images/uploads
+public_folder: /images/uploads
+site_url: https://CHANGE-ME.example.com
+display_url: https://CHANGE-ME.example.com
+
+collections:
+  - name: pages
+    label: "Website"
+    files:
+      - name: site
+        label: "Main page text & links"
+        file: content/site.json
+        fields:
+          - { name: site_name, label: "Podcast name", widget: string }
+          - { name: tab_title, label: "Browser tab title", widget: string, required: false }
+          - { name: description, label: "Short description (shown on Google)", widget: text, required: false }
+          - { name: owner_name, label: "Owner name (used in the copyright line)", widget: string }
+
+          - { name: hero_kicker, label: "Top blinking line (optional)", widget: string, required: false, hint: "Example: PRESS START TO CONTINUE" }
+          - { name: hero_line1, label: "Headline - small first line", widget: string, required: false }
+          - { name: hero_title, label: "Headline - big colored line", widget: string }
+          - { name: tagline, label: "Tagline under the headline", widget: text, required: false }
+          - { name: hero_button1_text, label: "Button 1 text", widget: string, required: false }
+          - { name: hero_button1_link, label: "Button 1 link", widget: string, required: false, hint: "Use #episodes to jump to episodes, or paste a web address" }
+          - { name: hero_button2_text, label: "Button 2 text", widget: string, required: false }
+          - { name: hero_button2_link, label: "Button 2 link", widget: string, required: false }
+          - label: "Numbers under the headline (optional)"
+            name: stats
+            widget: list
+            required: false
+            summary: "{{fields.number}} {{fields.label}}"
+            fields:
+              - { name: number, label: "Number", widget: string, hint: "Example: 120+" }
+              - { name: label, label: "Label", widget: string, hint: "Example: Episodes" }
+
+          - { name: episodes_title, label: "Episodes section title", widget: string }
+          - { name: episodes_subtitle, label: "Episodes section sentence", widget: string, required: false }
+          - { name: archive_link, label: "Link to all episodes (leave empty to hide button)", widget: string, required: false }
+
+          - { name: comics_tab, label: "Tab name: Comic Reels", widget: string, required: false }
+          - { name: comics_subtitle, label: "Comic Reels page sentence", widget: string, required: false }
+          - { name: motivation_tab, label: "Tab name: Motivation", widget: string, required: false }
+          - { name: motivation_subtitle, label: "Motivation page sentence", widget: string, required: false }
+          - { name: facts_tab, label: "Tab name: Facts of the Day", widget: string, required: false }
+          - { name: facts_subtitle, label: "Facts of the Day page sentence", widget: string, required: false }
+
+          - { name: segments_title, label: "Segments section title", widget: string }
+          - { name: segments_subtitle, label: "Segments section sentence", widget: string, required: false }
+          - label: "Segments (leave empty to hide the section)"
+            name: segments
+            widget: list
+            required: false
+            summary: "{{fields.title}}"
+            fields:
+              - { name: title, label: "Name", widget: string }
+              - { name: category, label: "Color", widget: select, options: [{ label: "Red (Gaming)", value: gaming }, { label: "Blue (Tech)", value: tech }, { label: "Green (Feel Good)", value: motivation }], default: gaming }
+              - { name: emoji, label: "Icon (an emoji)", widget: string, required: false }
+              - { name: description, label: "Description", widget: text, required: false }
+
+          - { name: hosts_title, label: "Hosts section title (optional)", widget: string, required: false }
+          - { name: hosts_subtitle, label: "Hosts section sentence", widget: string, required: false }
+          - { name: blog_title, label: "Blog section title", widget: string }
+          - { name: blog_subtitle, label: "Blog section sentence", widget: string, required: false }
+
+          - { name: subscribe_title, label: "Listen section title", widget: string }
+          - { name: subscribe_subtitle, label: "Listen section sentence", widget: string, required: false }
+          - label: "Where to listen (only ones with a link are shown)"
+            name: platforms
+            widget: list
+            required: false
+            summary: "{{fields.name}}"
+            fields:
+              - { name: name, label: "Platform name", widget: string }
+              - { name: emoji, label: "Icon (an emoji)", widget: string, required: false }
+              - { name: url, label: "Link", widget: string, required: false }
+
+          - { name: support_title, label: "Support section title", widget: string }
+          - { name: support_text, label: "Support section sentence", widget: text, required: false }
+          - label: "Support buttons (merch, Patreon... leave empty to hide section)"
+            name: support_buttons
+            widget: list
+            required: false
+            summary: "{{fields.text}}"
+            fields:
+              - { name: text, label: "Button text", widget: string }
+              - { name: url, label: "Link", widget: string }
+
+          - { name: newsletter_title, label: "Email signup title", widget: string }
+          - { name: newsletter_text, label: "Email signup sentence", widget: text, required: false }
+          - { name: newsletter_form_url, label: "Email signup form address (leave empty to hide)", widget: string, required: false, hint: "Get this from a free form service such as Formspree" }
+
+          - { name: community_title, label: "Community section title", widget: string }
+          - { name: community_subtitle, label: "Community section sentence", widget: string, required: false }
+          - label: "Community links (Discord, Instagram...)"
+            name: community_links
+            widget: list
+            required: false
+            summary: "{{fields.text}}"
+            fields:
+              - { name: emoji, label: "Icon (an emoji)", widget: string, required: false }
+              - { name: text, label: "Text", widget: string }
+              - { name: url, label: "Link", widget: string }
+          - { name: contact_form_url, label: "Contact form address (leave empty to hide form)", widget: string, required: false, hint: "Get this from a free form service such as Formspree" }
+
+          - { name: privacy_link, label: "Privacy policy link (optional)", widget: string, required: false }
+          - { name: footer_text, label: "Footer sentence after the copyright name", widget: string, required: false }
+
+      - name: episodes
+        label: "Episodes"
+        file: content/episodes.json
+        fields:
+          - label: "Episodes (newest show first automatically)"
+            name: items
+            widget: list
+            required: false
+            summary: "{{fields.title}}"
+            fields:
+              - { name: title, label: "Episode title", widget: string }
+              - { name: category, label: "Type", widget: select, options: [{ label: "Gaming News", value: gaming }, { label: "Tech News", value: tech }, { label: "Feel Good", value: motivation }], default: gaming }
+              - { name: date, label: "Date", widget: datetime, time_format: false, date_format: "YYYY-MM-DD", format: "YYYY-MM-DD" }
+              - { name: duration, label: "Length", widget: string, required: false, hint: "Example: 45 min" }
+              - { name: link, label: "Link to listen", widget: string, required: false }
+              - { name: emoji, label: "Icon (an emoji, optional)", widget: string, required: false }
+
+      - name: comics
+        label: "Comic Reels"
+        file: content/comics.json
+        fields:
+          - label: "Reels (newest show first automatically)"
+            name: items
+            widget: list
+            required: false
+            summary: "{{fields.title}}"
+            fields:
+              - { name: title, label: "Title", widget: string }
+              - { name: date, label: "Date", widget: datetime, time_format: false, date_format: "YYYY-MM-DD", format: "YYYY-MM-DD" }
+              - { name: link, label: "Video link", widget: string, hint: "Paste a YouTube, YouTube Shorts, TikTok or Instagram Reel link and it plays right on the page" }
+              - { name: caption, label: "Caption (optional)", widget: text, required: false }
+              - { name: thumbnail, label: "Cover picture (only needed for other video sites)", widget: image, required: false }
+
+      - name: motivation
+        label: "Motivation"
+        file: content/motivation.json
+        fields:
+          - label: "Quotes & messages (newest show first automatically)"
+            name: items
+            widget: list
+            required: false
+            summary: "{{fields.quote}}"
+            fields:
+              - { name: quote, label: "Quote or message", widget: text }
+              - { name: author, label: "Who said it (optional)", widget: string, required: false }
+              - { name: date, label: "Date", widget: datetime, time_format: false, date_format: "YYYY-MM-DD", format: "YYYY-MM-DD" }
+
+      - name: facts
+        label: "Facts of the Day"
+        file: content/facts.json
+        fields:
+          - label: "Facts (the newest one dated today or earlier is shown as Today's Fact; future dates stay hidden until that day)"
+            name: items
+            widget: list
+            required: false
+            summary: "{{fields.date}} {{fields.fact}}"
+            fields:
+              - { name: fact, label: "Fact", widget: text }
+              - { name: date, label: "Date it should appear", widget: datetime, time_format: false, date_format: "YYYY-MM-DD", format: "YYYY-MM-DD" }
+              - { name: source, label: "Source (optional)", widget: string, required: false }
+
+      - name: hosts
+        label: "Hosts"
+        file: content/hosts.json
+        fields:
+          - label: "Hosts"
+            name: items
+            widget: list
+            required: false
+            summary: "{{fields.name}}"
+            fields:
+              - { name: name, label: "Name", widget: string }
+              - { name: role, label: "Role (example: Host)", widget: string, required: false }
+              - { name: bio, label: "Short bio", widget: text, required: false }
+              - { name: photo, label: "Photo (optional)", widget: image, required: false }
+              - label: "Social links"
+                name: socials
+                widget: list
+                required: false
+                summary: "{{fields.label}}"
+                fields:
+                  - { name: label, label: "Name (X, IG, YT...)", widget: string }
+                  - { name: url, label: "Link", widget: string }
+
+      - name: blog
+        label: "Blog posts"
+        file: content/blog.json
+        fields:
+          - label: "Blog posts (newest show first automatically)"
+            name: items
+            widget: list
+            required: false
+            summary: "{{fields.title}}"
+            fields:
+              - { name: title, label: "Title", widget: string }
+              - { name: date, label: "Date", widget: datetime, time_format: false, date_format: "YYYY-MM-DD", format: "YYYY-MM-DD" }
+              - { name: summary, label: "One-sentence summary", widget: text, required: false }
+              - { name: link, label: "Link to the full post", widget: string, required: false }
