@@ -111,6 +111,15 @@ collections:
               - { name: url, label: "Link", widget: string }
           - { name: contact_form_url, label: "Contact form address (leave empty to hide form)", widget: string, required: false, hint: "Get this from a free form service such as Formspree" }
 
+          - label: "Footer social & store links (TikTok, Facebook, Store... only ones with a link are shown)"
+            name: footer_links
+            widget: list
+            required: false
+            summary: "{{fields.label}}"
+            fields:
+              - { name: label, label: "Name", widget: string }
+              - { name: emoji, label: "Icon (an emoji)", widget: string, required: false }
+              - { name: url, label: "Link", widget: string, required: false }
           - { name: privacy_link, label: "Privacy policy link (optional)", widget: string, required: false }
           - { name: footer_text, label: "Footer sentence after the copyright name", widget: string, required: false }
 

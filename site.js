@@ -281,6 +281,10 @@
       $('navLinks').appendChild(el('li', {}, [el('a', { href: id === 'home' ? '#top' : '#' + id, 'data-tab': id, text: label })]));
       if (id !== 'home') $('footLinks').appendChild(el('a', { href: '#' + id, text: label }));
     });
+    const soc = (site.footer_links || []).filter((l) => has(l.url) && has(l.label));
+    soc.forEach((l) => $('footSocial').appendChild(link(l.url, { class: 'soc-btn' }, [
+      el('span', { class: 'soc-ico', text: has(l.emoji) ? l.emoji : '🔗' }), document.createTextNode(l.label)])));
+    $('footSocial').hidden = !soc.length;
     if (has(site.privacy_link)) $('footLinks').appendChild(link(site.privacy_link, { text: 'Privacy' }));
     if (!$('footLinks').children.length) $('footLinks').style.display = 'none';
     const owner = has(site.owner_name) ? site.owner_name : name;

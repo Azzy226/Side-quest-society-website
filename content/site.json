@@ -2,7 +2,7 @@
   "site_name": "Side Quest Society",
   "tab_title": "Side Quest Society",
   "description": "",
-  "owner_name": "Trey Smith",
+  "owner_name": "Side Quest Society",
   "hero_kicker": "",
   "hero_line1": "Welcome to the",
   "hero_title": "SIDE QUEST SOCIETY",
@@ -25,11 +25,31 @@
   "subscribe_title": "Listen Anywhere",
   "subscribe_subtitle": "",
   "platforms": [
-    { "name": "Spotify", "emoji": "🟢", "url": "" },
-    { "name": "Apple Podcasts", "emoji": "🍎", "url": "" },
-    { "name": "YouTube", "emoji": "▶️", "url": "" },
-    { "name": "Overcast", "emoji": "🎧", "url": "" },
-    { "name": "RSS Feed", "emoji": "📻", "url": "" }
+    {
+      "name": "Spotify",
+      "emoji": "🟢",
+      "url": ""
+    },
+    {
+      "name": "Apple Podcasts",
+      "emoji": "🍎",
+      "url": ""
+    },
+    {
+      "name": "YouTube",
+      "emoji": "▶️",
+      "url": ""
+    },
+    {
+      "name": "Overcast",
+      "emoji": "🎧",
+      "url": ""
+    },
+    {
+      "name": "RSS Feed",
+      "emoji": "📻",
+      "url": ""
+    }
   ],
   "support_title": "Support the Quest",
   "support_text": "",
@@ -42,5 +62,37 @@
   "community_links": [],
   "contact_form_url": "",
   "privacy_link": "",
-  "footer_text": "All quests reserved."
+  "footer_text": "All rights reserved.",
+  "footer_links": [
+    {
+      "label": "TikTok",
+      "emoji": "🎵",
+      "url": ""
+    },
+    {
+      "label": "Facebook",
+      "emoji": "👍",
+      "url": ""
+    },
+    {
+      "label": "Instagram",
+      "emoji": "📸",
+      "url": ""
+    },
+    {
+      "label": "YouTube",
+      "emoji": "▶️",
+      "url": ""
+    },
+    {
+      "label": "X",
+      "emoji": "🐦",
+      "url": ""
+    },
+    {
+      "label": "Store",
+      "emoji": "🛍",
+      "url": ""
+    }
+  ]
 }
