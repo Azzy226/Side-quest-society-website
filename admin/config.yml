@@ -46,8 +46,8 @@ collections:
           - { name: episodes_subtitle, label: "Episodes section sentence", widget: string, required: false }
           - { name: archive_link, label: "Link to all episodes (leave empty to hide button)", widget: string, required: false }
 
-          - { name: comics_tab, label: "Tab name: Comic Reels", widget: string, required: false }
-          - { name: comics_subtitle, label: "Comic Reels page sentence", widget: string, required: false }
+          - { name: comics_tab, label: "Tab name: Press Start (videos)", widget: string, required: false }
+          - { name: comics_subtitle, label: "Press Start page sentence", widget: string, required: false }
           - { name: motivation_tab, label: "Tab name: Motivation", widget: string, required: false }
           - { name: motivation_subtitle, label: "Motivation page sentence", widget: string, required: false }
           - { name: facts_tab, label: "Tab name: Facts of the Day", widget: string, required: false }
@@ -141,7 +141,7 @@ collections:
               - { name: emoji, label: "Icon (an emoji, optional)", widget: string, required: false }
 
       - name: comics
-        label: "Comic Reels"
+        label: "Press Start (videos)"
         file: content/comics.json
         fields:
           - label: "Reels (newest show first automatically)"
@@ -150,8 +150,8 @@ collections:
             required: false
             summary: "{{fields.title}}"
             fields:
-              - { name: title, label: "Title", widget: string }
-              - { name: date, label: "Date", widget: datetime, time_format: false, date_format: "YYYY-MM-DD", format: "YYYY-MM-DD" }
+              - { name: title, label: "Title (optional)", widget: string, required: false }
+              - { name: date, label: "Date", widget: datetime, time_format: false, date_format: "YYYY-MM-DD", format: "YYYY-MM-DD", required: false }
               - { name: link, label: "Video link", widget: string, hint: "Paste a YouTube, YouTube Shorts, TikTok or Instagram Reel link and it plays right on the page" }
               - { name: caption, label: "Caption (optional)", widget: text, required: false }
               - { name: thumbnail, label: "Cover picture (only needed for other video sites)", widget: image, required: false }

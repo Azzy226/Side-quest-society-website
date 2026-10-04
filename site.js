@@ -213,26 +213,26 @@
     function videoEmbed(url) {
       const m = (url || '').match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{11})/);
       if (m) return { src: 'https://www.youtube.com/embed/' + m[1], vertical: /shorts\//.test(url) };
-      const t = (url || '').match(/tiktok\.com\/.*\/video\/(\d+)/);
+      const t = (url || '').match(/tiktok\.com\/.*\/(?:video|photo)\/(\d+)/);
       if (t) return { src: 'https://www.tiktok.com/embed/v2/' + t[1], vertical: true };
       const i = (url || '').match(/instagram\.com\/(reel|p)\/([\w-]+)/);
       if (i) return { src: 'https://www.instagram.com/' + i[1] + '/' + i[2] + '/embed', vertical: true };
       return null;
     }
 
-    $('comicsTitle').textContent = tabLabel('comics', 'Comic Reels');
+    $('comicsTitle').textContent = tabLabel('comics', 'Press Start');
     if (has(site.comics_subtitle)) { $('comicsSub').textContent = site.comics_subtitle; $('comicsSub').hidden = false; }
-    const reels = list(comics).filter((r) => has(r.title)).sort(byDate);
+    const reels = list(comics).filter((r) => has(r.title) || has(r.link)).sort(byDate);
     reels.forEach((r) => {
       const emb = videoEmbed(r.link);
       let media;
-      if (emb) media = el('div', { class: 'reel-media' + (emb.vertical ? ' vertical' : '') }, [el('iframe', { src: emb.src, loading: 'lazy', allowfullscreen: '', title: r.title })]);
+      if (emb) media = el('div', { class: 'reel-media' + (emb.vertical ? ' vertical' : '') }, [el('iframe', { src: emb.src, loading: 'lazy', allowfullscreen: '', title: r.title || 'Video' })]);
       else if (has(r.thumbnail)) media = el('div', { class: 'reel-media' }, [el('img', { src: r.thumbnail, alt: r.title })]);
       else media = el('div', { class: 'reel-media', text: '🎬', style: 'font-size:48px;' });
       $('comicsGrid').appendChild(el('div', { class: 'reel-card' }, [
         media,
         el('div', { class: 'reel-body' }, [
-          el('h3', { text: r.title }),
+          has(r.title) ? el('h3', { text: r.title }) : null,
           has(r.caption) ? el('p', { text: r.caption }) : null,
           (!emb && has(r.link)) ? link(r.link, { class: 'ep-play', text: '▶ WATCH' }) : null
         ])
@@ -273,7 +273,7 @@
 
     /* ----- Navigation (tabs) + footer ----- */
     const TAB_VIEWS = ['comics', 'motivation', 'facts'];
-    const tabs = [['home', 'Home'], ['episodes', 'Episodes'], ['comics', tabLabel('comics', 'Comic Reels')],
+    const tabs = [['home', 'Home'], ['episodes', 'Episodes'], ['comics', tabLabel('comics', 'Press Start')],
       ['motivation', tabLabel('motivation', 'Motivation')], ['facts', tabLabel('facts', 'Facts of the Day')],
       ['blog', 'Blog'], ['community', 'Community']]
       .filter(([id]) => id === 'home' || TAB_VIEWS.includes(id) || !$(id).hidden);

@@ -258,11 +258,11 @@ footer .copy{font-size:18px;margin-top:14px;font-style:italic;}
 
 /* ---------- Tabs: reels, motivation, facts ---------- */
 .empty-note{color:var(--cream-dim);font-style:italic;font-size:24px;}
-.reels-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;}
+.reels-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,340px));justify-content:center;gap:30px;}
 .reel-card{overflow:hidden;}
 .reel-media{aspect-ratio:16/9;background:#000;display:flex;align-items:center;justify-content:center;border-bottom:3px double var(--gold-d);}
 .reel-media iframe,.reel-media img{width:100%;height:100%;border:0;object-fit:cover;}
-.reel-media.vertical{aspect-ratio:9/16;max-height:560px;}
+.reel-media.vertical{aspect-ratio:auto;height:740px;max-height:none;background:#fff;}
 .reel-body{padding:20px 22px 22px;}
 .reel-body h3{font-size:20px;margin-bottom:8px;color:var(--ink);}
 .reel-body p{color:var(--ink-soft);font-size:20px;margin-bottom:12px;}
