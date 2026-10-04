@@ -229,18 +229,40 @@
     const reels = list(comics).filter((r) => has(r.title) || has(r.link)).sort(byDate);
     reels.forEach((r) => {
       const emb = videoEmbed(r.link);
+      const textBox = el('div', { class: 'reel-body' });
+      const card = el('div', { class: 'reel-card' });
       let media;
-      if (emb) media = el('div', { class: 'reel-media' + (emb.vertical ? ' vertical' : '') }, [el('iframe', { src: emb.src, loading: 'lazy', allowfullscreen: '', title: r.title || 'Video' })]);
-      else if (has(r.thumbnail)) media = el('div', { class: 'reel-media' }, [el('img', { src: r.thumbnail, alt: r.title })]);
-      else media = el('div', { class: 'reel-media', text: '🎬', style: 'font-size:48px;' });
-      $('comicsGrid').appendChild(el('div', { class: 'reel-card' }, [
-        media,
-        el('div', { class: 'reel-body' }, [
-          has(r.title) ? el('h3', { text: r.title }) : null,
-          has(r.caption) ? el('p', { text: r.caption }) : null,
-          (!emb && has(r.link)) ? link(r.link, { class: 'ep-play', text: '▶ WATCH' }) : null
-        ])
-      ]));
+      if (emb && emb.src.indexOf('youtube') > -1) {
+        // YouTube plays right on the page.
+        media = el('div', { class: 'reel-media' + (emb.vertical ? ' vertical' : '') }, [el('iframe', { src: emb.src, loading: 'lazy', allowfullscreen: '', title: r.title || 'Video' })]);
+      } else {
+        // TikTok / Instagram: a poster card that never depends on the embed loading.
+        // "Play here" loads the player; "Open" always works, even if a browser blocks embeds.
+        media = el('div', { class: 'reel-media poster' + (emb ? ' vertical' : '') });
+        if (has(r.thumbnail)) media.style.backgroundImage = 'url("' + r.thumbnail + '")';
+        const play = el('button', { class: 'poster-play', type: 'button', 'aria-label': 'Play video', text: '▶' });
+        media.appendChild(play);
+        if (emb) play.addEventListener('click', () => {
+          media.classList.remove('poster');
+          media.textContent = '';
+          media.appendChild(el('iframe', { src: emb.src, allowfullscreen: '', allow: 'autoplay; fullscreen', title: r.title || 'Video' }));
+        });
+        else play.addEventListener('click', () => window.open(r.link, '_blank', 'noopener'));
+        if (/tiktok\.com/.test(r.link || '')) {
+          fetch('https://www.tiktok.com/oembed?url=' + encodeURIComponent(r.link)).then((x) => x.json()).then((j) => {
+            if (!has(r.thumbnail) && has(j.thumbnail_url)) media.style.backgroundImage = 'url("' + j.thumbnail_url + '")';
+            if (!has(r.title) && !has(r.caption) && has(j.title)) {
+              const cap = el('p', { text: j.title.length > 160 ? j.title.slice(0, 157) + '...' : j.title });
+              textBox.insertBefore(cap, textBox.firstChild);
+            }
+          }).catch(() => {});
+        }
+      }
+      textBox.appendChild(has(r.title) ? el('h3', { text: r.title }) : document.createTextNode(''));
+      if (has(r.caption)) textBox.appendChild(el('p', { text: r.caption }));
+      if (has(r.link)) textBox.appendChild(link(r.link, { class: 'ep-play', text: '▶ WATCH ON ' + (/tiktok/.test(r.link) ? 'TIKTOK' : /instagram/.test(r.link) ? 'INSTAGRAM' : /youtu/.test(r.link) ? 'YOUTUBE' : 'THE SITE') }));
+      card.appendChild(media); card.appendChild(textBox);
+      $('comicsGrid').appendChild(card);
     });
     $('comicsEmpty').hidden = reels.length > 0;
 

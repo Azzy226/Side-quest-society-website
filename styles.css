@@ -306,3 +306,12 @@ footer .copy{font-size:18px;margin-top:14px;font-style:italic;}
   transition:transform .15s,border-color .15s,color .15s,background .15s;}
 .soc-btn:hover{transform:translateY(-3px);border-color:var(--gold);color:var(--gold);background:rgba(227,173,60,.14);}
 .soc-ico{font-size:18px;}
+
+/* ---------- Click-to-play poster cards ---------- */
+.reel-media.poster{position:relative;height:auto;aspect-ratio:auto;height:480px;max-height:none;
+  background:linear-gradient(160deg,#1b2c4a,#0b1220) center/cover no-repeat;}
+.reel-media.poster::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.45));}
+.poster-play{position:relative;z-index:1;width:84px;height:84px;border-radius:50%;border:3px solid var(--gold);cursor:pointer;
+  background:rgba(10,16,30,.7);color:var(--gold);font-size:34px;padding-left:6px;transition:transform .15s,background .15s;}
+.poster-play:hover{transform:scale(1.1);background:rgba(227,173,60,.85);color:var(--ink);}
+.reel-body p:first-child{margin-bottom:10px;}
