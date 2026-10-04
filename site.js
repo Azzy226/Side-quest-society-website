@@ -1,5 +1,9 @@
 /* Builds the page from the files in /content. Trey never needs to edit this file. */
 (function () {
+  // Each page file sets data-page (home, comics, motivation, facts) and data-root (path back to the site's top folder).
+  const PAGE = document.body.dataset.page || 'home';
+  const ROOT = document.body.dataset.root || '';
+  const SLUGS = { comics: 'press-start', motivation: 'motivation', facts: 'facts-of-the-day' };
   const $ = (id) => document.getElementById(id);
   const CATS = {
     gaming: { label: 'Gaming News', icon: '🎮' },
@@ -27,7 +31,7 @@
 
   async function load(name) {
     try {
-      const r = await fetch('content/' + name + '.json', { cache: 'no-cache' });
+      const r = await fetch(ROOT + 'content/' + name + '.json', { cache: 'no-cache' });
       return r.ok ? await r.json() : {};
     } catch (e) { return {}; }
   }
@@ -272,15 +276,20 @@
     $('factsEmpty').hidden = !!current;
 
     /* ----- Navigation (tabs) + footer ----- */
-    const TAB_VIEWS = ['comics', 'motivation', 'facts'];
+    const TAB_VIEWS = Object.keys(SLUGS);
+    const hrefFor = (id) => id === 'home' ? (ROOT || './') : TAB_VIEWS.includes(id) ? ROOT + SLUGS[id] + '/' : ROOT + '#' + id;
     const tabs = [['home', 'Home'], ['episodes', 'Episodes'], ['comics', tabLabel('comics', 'Press Start')],
       ['motivation', tabLabel('motivation', 'Motivation')], ['facts', tabLabel('facts', 'Facts of the Day')],
       ['blog', 'Blog'], ['community', 'Community']]
       .filter(([id]) => id === 'home' || TAB_VIEWS.includes(id) || !$(id).hidden);
     tabs.forEach(([id, label]) => {
-      $('navLinks').appendChild(el('li', {}, [el('a', { href: id === 'home' ? '#top' : '#' + id, 'data-tab': id, text: label })]));
-      if (id !== 'home') $('footLinks').appendChild(el('a', { href: '#' + id, text: label }));
+      const a = el('a', { href: hrefFor(id), 'data-tab': id, text: label });
+      if (id === PAGE) a.classList.add('active');
+      $('navLinks').appendChild(el('li', {}, [a]));
+      if (id !== 'home') $('footLinks').appendChild(el('a', { href: hrefFor(id), text: label }));
     });
+    document.querySelector('.logo').href = hrefFor('home');
+    $('navSubscribe').href = ROOT + '#subscribe';
     const soc = (site.footer_links || []).filter((l) => has(l.url) && has(l.label));
     soc.forEach((l) => $('footSocial').appendChild(link(l.url, { class: 'soc-btn' }, [
       el('span', { class: 'soc-ico', text: has(l.emoji) ? l.emoji : '🔗' }), document.createTextNode(l.label)])));
@@ -290,21 +299,15 @@
     const owner = has(site.owner_name) ? site.owner_name : name;
     $('footerCopy').textContent = '© ' + new Date().getFullYear() + ' ' + owner + '. ' + (has(site.footer_text) ? site.footer_text : 'All rights reserved.');
 
-    // Simple routing: #comics / #motivation / #facts show that tab; anything else shows Home.
-    function route() {
-      const id = location.hash.replace('#', '');
-      const isTab = TAB_VIEWS.includes(id);
-      $('view-home').hidden = isTab;
-      TAB_VIEWS.forEach((v) => { $('view-' + v).hidden = v !== id; });
-      document.querySelectorAll('#navLinks a').forEach((a) => {
-        const t = a.dataset.tab;
-        a.classList.toggle('active', isTab ? t === id : (t === 'home' ? (!id || id === 'top') : t === id));
-      });
-      if (isTab || !id || id === 'top') window.scrollTo(0, 0);
-      else { const t = document.getElementById(id); if (t) t.scrollIntoView(); }
+    // Show only this page's content.
+    $('view-home').hidden = PAGE !== 'home';
+    TAB_VIEWS.forEach((v) => { $('view-' + v).hidden = v !== PAGE; });
+    if (PAGE !== 'home') {
+      document.title = tabLabel(PAGE, '') + ' | ' + document.title;
+    } else if (location.hash.length > 1) {
+      const t = document.getElementById(location.hash.slice(1));
+      if (t) t.scrollIntoView();
     }
-    window.addEventListener('hashchange', route);
-    route();
 
     const toggle = $('menuToggle'), nav = $('navLinks');
     toggle.addEventListener('click', () => nav.classList.toggle('open'));
