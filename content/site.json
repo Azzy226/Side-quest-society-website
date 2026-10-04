@@ -53,7 +53,12 @@
   ],
   "support_title": "Support the Quest",
   "support_text": "",
-  "support_buttons": [],
+  "support_buttons": [
+    {
+      "text": "Shop on Whatnot",
+      "url": "https://www.whatnot.com/user/gamers_dream_haven"
+    }
+  ],
   "newsletter_title": "Join the Party",
   "newsletter_text": "",
   "newsletter_form_url": "",
