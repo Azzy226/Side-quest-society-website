@@ -65,6 +65,11 @@
   "footer_text": "All rights reserved.",
   "footer_links": [
     {
+      "label": "My Links",
+      "emoji": "🔗",
+      "url": "https://beacons.ai/pressstarttrey"
+    },
+    {
       "label": "TikTok",
       "emoji": "🎵",
       "url": ""
